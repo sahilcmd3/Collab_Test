@@ -1,6 +1,6 @@
 import { PublicClientApplication } from "@azure/msal-browser";
 import { CosmosClient } from "@azure/cosmos";
-import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
 // Azure AD B2C Configuration
@@ -26,7 +26,10 @@ const container = database.container(process.env.NEXT_PUBLIC_AZURE_COSMOS_DB_CON
 // Azure Storage Configuration
 const blobServiceClient = new BlobServiceClient(
   `https://${process.env.NEXT_PUBLIC_AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net`,
-  new AzureKeyCredential(process.env.NEXT_PUBLIC_AZURE_STORAGE_ACCOUNT_KEY)
+  new StorageSharedKeyCredential(
+    process.env.NEXT_PUBLIC_AZURE_STORAGE_ACCOUNT_NAME,
+    process.env.NEXT_PUBLIC_AZURE_STORAGE_ACCOUNT_KEY
+  )
 );
 
 // Azure OpenAI Configuration
